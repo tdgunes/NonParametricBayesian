@@ -2,12 +2,13 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 from scipy.stats import dirichlet, multinomial
 
 
 # dirichlet - HABIT's evaluation
 alpha = np.ones(5)
-alpha = dirichlet(alpha).rvs(size=1)[0] * 7
+alpha = dirichlet(alpha).rvs(size=1)[0] * 20
 
 
 
@@ -16,7 +17,7 @@ x = np.array(samples)
 y = np.zeros(len(samples))
 err = np.zeros(len(samples))
 
-runs = 1000
+runs = 100
 
 for n in range(len(samples)):
 
@@ -36,9 +37,10 @@ for n in range(len(samples)):
     y[n] = np.mean(y_s)
     err[n] = np.std(y_s)
 
+print(err)
 
 plt.plot(x, y, 'r-', lw=2, label="DRSTruster")
-plt.errorbar(x, y, yerr=2 * err)
+plt.errorbar(x, y, yerr=2 * err / math.sqrt(runs))
 
 plt.legend(loc='best', frameon=False)
 plt.show()
